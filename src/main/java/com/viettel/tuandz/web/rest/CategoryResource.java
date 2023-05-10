@@ -32,4 +32,10 @@ public class CategoryResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), res);
         return ResponseEntity.ok().headers(headers).body(res.getContent());
     }
+
+    @PostMapping(value = "/cat/insert")
+    public ResponseEntity<SysCatDTO> createCat(@RequestBody SysCatDTO sysCatDTO) {
+        SysCatDTO result = sysCatService.save(sysCatDTO);
+        return ResponseEntity.ok().body(result);
+    }
 }

@@ -6,5 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.query.Param;
 
 public interface SysCatService {
-    Page<SysCatDTO> doSearch(@Param("code") String code, @Param("name") String name, Pageable pageable);
+    Page<SysCatDTO> doSearch(String code, String name, Pageable pageable);
+
+    SysCatDTO save(SysCatDTO sysCatDTO);
 }

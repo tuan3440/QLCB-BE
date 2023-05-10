@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface SysCatRepository extends JpaRepository<SysCat, Long> {
     @Query(
@@ -19,5 +20,7 @@ public interface SysCatRepository extends JpaRepository<SysCat, Long> {
         "and (:code is null or sysCat.code like :code) " +
         "and (:name is null or sysCat.name like :name)"
     )
-    Page<SysCatDTO> doSearch(String code, String name, Pageable pageable);
+    Page<SysCat> doSearch(@Param("code") String code, @Param("name") String name, Pageable pageable);
+
+    boolean existsByCode(String code);
 }

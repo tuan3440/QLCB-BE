@@ -1,19 +1,17 @@
 package com.viettel.tuandz.service.dto;
 
-import lombok.Data;
-
 public class SysCatItemDTO {
 
-    private Integer catId;
+    private Long catId;
     private String code;
     private String name;
-    private Integer catTypeId;
+    private Long catTypeId;
 
-    public Integer getCatId() {
+    public Long getCatId() {
         return catId;
     }
 
-    public void setCatId(Integer catId) {
+    public void setCatId(Long catId) {
         this.catId = catId;
     }
 
@@ -33,11 +31,11 @@ public class SysCatItemDTO {
         this.name = name;
     }
 
-    public Integer getCatTypeId() {
+    public Long getCatTypeId() {
         return catTypeId;
     }
 
-    public void setCatTypeId(Integer catTypeId) {
+    public void setCatTypeId(Long catTypeId) {
         this.catTypeId = catTypeId;
     }
 }

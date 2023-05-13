@@ -1,9 +1,6 @@
 package com.viettel.tuandz.domain;
 
 import javax.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "sys_cat")
@@ -12,7 +9,7 @@ public class SysCat {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "code")
     private String code;
@@ -23,11 +20,11 @@ public class SysCat {
     @Column(name = "description")
     private String description;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

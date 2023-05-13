@@ -10,7 +10,7 @@ public class SysCatItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "cat_id")
-    private Integer catId;
+    private Long catId;
 
     @Basic
     @Column(name = "code")
@@ -22,13 +22,13 @@ public class SysCatItem {
 
     @Basic
     @Column(name = "cat_type_id")
-    private Integer catTypeId;
+    private Long catTypeId;
 
-    public Integer getCatId() {
+    public Long getCatId() {
         return catId;
     }
 
-    public void setCatId(Integer catId) {
+    public void setCatId(Long catId) {
         this.catId = catId;
     }
 
@@ -48,11 +48,11 @@ public class SysCatItem {
         this.name = name;
     }
 
-    public Integer getCatTypeId() {
+    public Long getCatTypeId() {
         return catTypeId;
     }
 
-    public void setCatTypeId(Integer catTypeId) {
+    public void setCatTypeId(Long catTypeId) {
         this.catTypeId = catTypeId;
     }
 

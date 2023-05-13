@@ -8,9 +8,7 @@ import com.viettel.tuandz.service.mapper.SysCatMapper;
 import com.viettel.tuandz.service.utils.DataUtil;
 import com.viettel.tuandz.web.rest.errors.BadRequestAlertException;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-@Slf4j
 public class SysCatServiceImpl implements SysCatService {
 
     @Autowired
@@ -56,5 +53,29 @@ public class SysCatServiceImpl implements SysCatService {
         SysCat sysCat = sysCatMapper.toEntity(sysCatDTO);
         sysCat = sysCatRepository.save(sysCat);
         return sysCatMapper.toDto(sysCat);
+    }
+
+    @Override
+    public SysCatDTO update(SysCatDTO sysCatDTO) {
+        if (sysCatDTO.getId() == null) {
+            throw new BadRequestAlertException("ERROR", ENTITY_NAME, "idnotfound");
+        }
+        if (!sysCatDTO.getCode().equals(sysCatRepository.findById(sysCatDTO.getId()).get().getCode())) {
+            if (sysCatRepository.existsByCode(sysCatDTO.getCode())) {
+                throw new BadRequestAlertException("A new syscat with code exist", ENTITY_NAME, "codeexists");
+            }
+        }
+        Optional<SysCat> sysCatOptional = sysCatRepository.findById(sysCatDTO.getId());
+        SysCat sysCat = sysCatOptional.get();
+        sysCat.setCode(sysCatDTO.getCode());
+        sysCat.setName(sysCatDTO.getName());
+        sysCat.setDescription(sysCatDTO.getDescription());
+        sysCat = sysCatRepository.save(sysCat);
+        return sysCatMapper.toDto(sysCat);
+    }
+
+    @Override
+    public void delete(Long id) {
+        sysCatRepository.deleteById(id);
     }
 }

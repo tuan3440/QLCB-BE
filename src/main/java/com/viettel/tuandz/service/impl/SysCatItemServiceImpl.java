@@ -30,16 +30,16 @@ public class SysCatItemServiceImpl implements SysCatItemService {
     private static final String ENTITY_NAME = "sysCatItem";
 
     @Override
-    public Page<SysCatItemDTO> doSearch(Long sysCatId, String code, String name, Pageable pageable) {
-        if (StringUtils.isNotEmpty(code) && StringUtils.isNotBlank(code)) {
+    public List<SysCatItemDTO> doSearch(Long sysCatId, String code, String name) {
+        if (code != null) {
             code = DataUtil.makeLikeParam(code);
         }
-        if (StringUtils.isNotEmpty(name) && StringUtils.isNotBlank(name)) {
+        if (name != null) {
             name = DataUtil.makeLikeParam(name);
         }
-        Page<SysCatItem> res = sysCatItemRepository.doSearch(sysCatId, code, name, pageable);
-        List<SysCatItemDTO> sysCatItemDTOList = sysCatItemMapper.toDto(res.getContent());
-        return new PageImpl<>(sysCatItemDTOList, pageable, res.getTotalElements());
+        List<SysCatItem> res = sysCatItemRepository.doSearch(sysCatId, code, name);
+        List<SysCatItemDTO> sysCatItemDTOList = sysCatItemMapper.toDto(res);
+        return sysCatItemDTOList;
     }
 
     @Override

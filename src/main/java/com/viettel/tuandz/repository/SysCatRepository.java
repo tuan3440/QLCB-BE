@@ -2,6 +2,7 @@ package com.viettel.tuandz.repository;
 
 import com.viettel.tuandz.domain.SysCat;
 import com.viettel.tuandz.service.dto.SysCatDTO;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,7 +21,7 @@ public interface SysCatRepository extends JpaRepository<SysCat, Long> {
         "and (:code is null or sysCat.code like :code) " +
         "and (:name is null or sysCat.name like :name)"
     )
-    Page<SysCat> doSearch(@Param("code") String code, @Param("name") String name, Pageable pageable);
+    List<SysCat> doSearch(@Param("code") String code, @Param("name") String name);
 
     boolean existsByCode(String code);
 }

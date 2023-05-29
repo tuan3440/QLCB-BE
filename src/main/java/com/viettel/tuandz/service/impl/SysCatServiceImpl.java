@@ -9,7 +9,6 @@ import com.viettel.tuandz.service.utils.DataUtil;
 import com.viettel.tuandz.web.rest.errors.BadRequestAlertException;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -30,16 +29,16 @@ public class SysCatServiceImpl implements SysCatService {
     private static final String ENTITY_NAME = "sysCat";
 
     @Override
-    public Page<SysCatDTO> doSearch(String code, String name, Pageable pageable) {
-        if (StringUtils.isNotEmpty(code) && StringUtils.isNotBlank(code)) {
+    public List<SysCatDTO> doSearch(String code, String name) {
+        if (code != null) {
             code = DataUtil.makeLikeParam(code);
         }
-        if (StringUtils.isNotEmpty(name) && StringUtils.isNotBlank(name)) {
+        if (name != null) {
             name = DataUtil.makeLikeParam(name);
         }
-        Page<SysCat> res = sysCatRepository.doSearch(code, name, pageable);
-        List<SysCatDTO> sysCatDTOList = sysCatMapper.toDto(res.getContent());
-        return new PageImpl<>(sysCatDTOList, pageable, res.getTotalElements());
+        List<SysCat> res = sysCatRepository.doSearch(code, name);
+        List<SysCatDTO> sysCatDTOList = sysCatMapper.toDto(res);
+        return sysCatDTOList;
     }
 
     @Override

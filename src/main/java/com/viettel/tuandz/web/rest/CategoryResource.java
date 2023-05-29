@@ -25,10 +25,9 @@ public class CategoryResource {
     private SysCatItemService sysCatItemService;
 
     @PostMapping(value = "/cat/doSearch")
-    public ResponseEntity<List<SysCatDTO>> doSearch(@RequestBody SysCatDTO paramSearch, Pageable pageable) {
-        Page<SysCatDTO> res = sysCatService.doSearch(paramSearch.getCode(), paramSearch.getName(), pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), res);
-        return ResponseEntity.ok().headers(headers).body(res.getContent());
+    public ResponseEntity<List<SysCatDTO>> doSearch(@RequestBody SysCatDTO paramSearch) {
+        List<SysCatDTO> res = sysCatService.doSearch(paramSearch.getCode(), paramSearch.getName());
+        return ResponseEntity.ok(res);
     }
 
     @PostMapping(value = "/cat/insert")
@@ -50,15 +49,9 @@ public class CategoryResource {
     }
 
     @PostMapping(value = "/cat-item/doSearch")
-    public ResponseEntity<List<SysCatItemDTO>> doSearch(@RequestBody SysCatItemDTO paramSearch, Pageable pageable) {
-        Page<SysCatItemDTO> res = sysCatItemService.doSearch(
-            paramSearch.getCatTypeId(),
-            paramSearch.getCode(),
-            paramSearch.getName(),
-            pageable
-        );
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), res);
-        return ResponseEntity.ok().headers(headers).body(res.getContent());
+    public ResponseEntity<List<SysCatItemDTO>> doSearch(@RequestBody SysCatItemDTO paramSearch) {
+        List<SysCatItemDTO> res = sysCatItemService.doSearch(paramSearch.getCatTypeId(), paramSearch.getCode(), paramSearch.getName());
+        return ResponseEntity.ok(res);
     }
 
     @PostMapping(value = "/cat-item/insert")

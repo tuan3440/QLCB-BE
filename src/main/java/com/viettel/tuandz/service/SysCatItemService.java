@@ -1,11 +1,12 @@
 package com.viettel.tuandz.service;
 
 import com.viettel.tuandz.service.dto.SysCatItemDTO;
+import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SysCatItemService {
-    Page<SysCatItemDTO> doSearch(Long sysCatId, String code, String name, Pageable pageable);
+    List<SysCatItemDTO> doSearch(Long sysCatId, String code, String name);
 
     SysCatItemDTO save(SysCatItemDTO sysCatItemDTO);
 

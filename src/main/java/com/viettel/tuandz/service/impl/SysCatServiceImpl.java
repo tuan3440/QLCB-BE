@@ -77,4 +77,11 @@ public class SysCatServiceImpl implements SysCatService {
     public void delete(Long id) {
         sysCatRepository.deleteById(id);
     }
+
+    @Override
+    public SysCatDTO getCat(Long id) {
+        Optional<SysCat> sysCat = sysCatRepository.findById(id);
+        if (sysCat.isPresent()) return sysCatMapper.toDto(sysCat.get());
+        return null;
+    }
 }

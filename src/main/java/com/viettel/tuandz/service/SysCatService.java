@@ -13,4 +13,6 @@ public interface SysCatService {
     SysCatDTO update(SysCatDTO sysCatDTO);
 
     void delete(Long id);
+
+    SysCatDTO getCat(Long id);
 }

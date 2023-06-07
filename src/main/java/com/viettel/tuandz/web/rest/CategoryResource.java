@@ -30,6 +30,12 @@ public class CategoryResource {
         return ResponseEntity.ok(res);
     }
 
+    @GetMapping(value = "/cat/findById/{id}")
+    public ResponseEntity<SysCatDTO> getCat(@PathVariable Long id) {
+        SysCatDTO res = sysCatService.getCat(id);
+        return ResponseEntity.ok(res);
+    }
+
     @PostMapping(value = "/cat/insert")
     public ResponseEntity<SysCatDTO> createCat(@RequestBody SysCatDTO sysCatDTO) {
         SysCatDTO result = sysCatService.save(sysCatDTO);

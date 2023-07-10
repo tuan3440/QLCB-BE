@@ -1,4 +1,4 @@
-package com.viettel.tuandz.service.utils;
+package com.viettel.tuandz.utils;
 
 import org.apache.commons.lang3.StringUtils;
 

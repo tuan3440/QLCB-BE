@@ -71,6 +71,8 @@ public class SecurityConfiguration {
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/api/cat/**").permitAll()
             .antMatchers("/api/cat-item/**").permitAll()
+            .antMatchers("/api/employee/**").permitAll()
+            .antMatchers("/api/file-managements/**").permitAll()
             .antMatchers("/api/admin/**").hasAuthority(AuthoritiesConstants.ADMIN)
             .antMatchers("/api/**").authenticated()
             .antMatchers("/management/health").permitAll()

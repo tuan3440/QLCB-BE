@@ -12,4 +12,8 @@ public final class Constants {
     public static final String DEFAULT_LANGUAGE = "en";
 
     private Constants() {}
+
+    public interface FILE_TYPE {
+        Integer AVATAR = 1;
+    }
 }

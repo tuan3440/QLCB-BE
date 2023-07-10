@@ -5,15 +5,11 @@ import com.viettel.tuandz.repository.SysCatItemRepository;
 import com.viettel.tuandz.service.SysCatItemService;
 import com.viettel.tuandz.service.dto.SysCatItemDTO;
 import com.viettel.tuandz.service.mapper.SysCatItemMapper;
-import com.viettel.tuandz.service.utils.DataUtil;
+import com.viettel.tuandz.utils.DataUtil;
 import com.viettel.tuandz.web.rest.errors.BadRequestAlertException;
 import java.util.List;
 import java.util.Optional;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

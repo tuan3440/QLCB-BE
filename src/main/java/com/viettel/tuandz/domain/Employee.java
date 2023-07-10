@@ -1,6 +1,7 @@
 package com.viettel.tuandz.domain;
 
 import java.sql.Date;
+import java.time.Instant;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -13,7 +14,7 @@ public class Employee {
     private Long id;
 
     @Basic
-    @Column(name = "codeId")
+    @Column(name = "code_id")
     private Long codeId;
 
     @Basic
@@ -22,7 +23,7 @@ public class Employee {
 
     @Basic
     @Column(name = "birthday")
-    private Date birthday;
+    private Instant birthDay;
 
     @Basic
     @Column(name = "gender")
@@ -41,16 +42,36 @@ public class Employee {
     private String address;
 
     @Basic
-    @Column(name = "nation")
-    private Integer nation;
+    @Column(name = "city_id")
+    private Integer cityId;
+
+    public Instant getBirthDay() {
+        return birthDay;
+    }
+
+    public void setBirthDay(Instant birthDay) {
+        this.birthDay = birthDay;
+    }
 
     @Basic
-    @Column(name = "organizationId")
-    private String organizationId;
+    @Column(name = "organization")
+    private String organization;
 
     @Basic
     @Column(name = "job")
     private String job;
+
+    @Basic
+    @Column(name = "avatar_id")
+    private Long avatarId;
+
+    public Long getAvatarId() {
+        return avatarId;
+    }
+
+    public void setAvatarId(Long avatarId) {
+        this.avatarId = avatarId;
+    }
 
     public Long getId() {
         return id;
@@ -74,14 +95,6 @@ public class Employee {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
     }
 
     public Short getGender() {
@@ -116,20 +129,20 @@ public class Employee {
         this.address = address;
     }
 
-    public Integer getNation() {
-        return nation;
+    public Integer getCityId() {
+        return cityId;
     }
 
-    public void setNation(Integer nation) {
-        this.nation = nation;
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
     }
 
-    public String getOrganizationId() {
-        return organizationId;
+    public String getOrganization() {
+        return organization;
     }
 
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
+    public void setOrganization(String organization) {
+        this.organization = organization;
     }
 
     public String getJob() {
@@ -149,19 +162,19 @@ public class Employee {
             Objects.equals(id, employee.id) &&
             Objects.equals(codeId, employee.codeId) &&
             Objects.equals(name, employee.name) &&
-            Objects.equals(birthday, employee.birthday) &&
+            Objects.equals(birthDay, employee.birthDay) &&
             Objects.equals(gender, employee.gender) &&
             Objects.equals(phone, employee.phone) &&
             Objects.equals(email, employee.email) &&
             Objects.equals(address, employee.address) &&
-            Objects.equals(nation, employee.nation) &&
-            Objects.equals(organizationId, employee.organizationId) &&
+            Objects.equals(cityId, employee.cityId) &&
+            Objects.equals(organization, employee.organization) &&
             Objects.equals(job, employee.job)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, codeId, name, birthday, gender, phone, email, address, nation, organizationId, job);
+        return Objects.hash(id, codeId, name, birthDay, gender, phone, email, address, cityId, organization, job);
     }
 }

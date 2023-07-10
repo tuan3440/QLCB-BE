@@ -26,6 +26,10 @@ public class FileAttachment {
     private String fileName;
 
     @Basic
+    @Column(name = "file_entry_name")
+    private String fileEntryName;
+
+    @Basic
     @Column(name = "path")
     private String path;
 
@@ -63,6 +67,14 @@ public class FileAttachment {
 
     public void setFileName(String fileName) {
         this.fileName = fileName;
+    }
+
+    public String getFileEntryName() {
+        return fileEntryName;
+    }
+
+    public void setFileEntryName(String fileEntryName) {
+        this.fileEntryName = fileEntryName;
     }
 
     public String getPath() {

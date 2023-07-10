@@ -1,106 +1,110 @@
 package com.viettel.tuandz.web.rest;
 
+import com.viettel.tuandz.service.FileAttachmentService;
+import com.viettel.tuandz.service.dto.FileAttachmentDTO;
+import com.viettel.tuandz.service.form.FileManagementDetail;
+import com.viettel.tuandz.utils.FileUtil;
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import javax.servlet.ServletContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+@RestController
+@RequestMapping("/api/file-managements")
 public class FileAttachmentResource {
 
-    Long id;
-    Long codeId;
-    String name;
-    Date birthday;
-    Short gender;
-    String phone;
-    String email;
-    String address;
-    Integer nation;
-    String organizationId;
-    String job;
+    @Autowired
+    public FileAttachmentService fileAttachmentService;
 
-    public Long getId() {
-        return id;
+    @Autowired
+    private ServletContext servletContext;
+
+    @PostMapping("/search")
+    public ResponseEntity<?> getListFile(@RequestBody FileAttachmentDTO fileAttachmentDTO) {
+        List<FileManagementDetail> fileManagementDetails = new ArrayList<>();
+        if (fileAttachmentDTO != null) {
+            fileManagementDetails =
+                fileAttachmentService.getFileManagement(fileAttachmentDTO.getFileType(), fileAttachmentDTO.getObjectId());
+        }
+        return ResponseEntity.ok(fileManagementDetails);
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    //    @PostMapping("/getFileById/{id}")
+    //    public ResponseEntity<?> getFileById(@PathVariable("id") Long id)
+    //    {
+    //
+    //        return ResponseEntity.ok(fileAttachmentService.findOne(id));
+    //    }
+
+    @GetMapping("view")
+    public ResponseEntity<ByteArrayResource> viewFile(@RequestParam("id") Long id) throws IOException {
+        Optional<FileAttachmentDTO> fileManagementDTOOptional = fileAttachmentService.findOne(id);
+        if (!fileManagementDTOOptional.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+        FileAttachmentDTO fileManagementDTO = fileManagementDTOOptional.get();
+        MediaType mediaType = FileUtil.getMediaTypeForFileName(this.servletContext, fileManagementDTO.getFileName());
+
+        Path path = Paths.get(fileManagementDTO.getPath() + fileManagementDTO.getFileEntryName());
+        if (Files.exists(path)) {
+            byte[] data = Files.readAllBytes(path);
+            ByteArrayResource resource = new ByteArrayResource(data);
+            return ResponseEntity
+                .ok()
+                // Content-Type
+                .contentType(mediaType) //
+                // Content-Lengh
+                .contentLength(data.length) //
+                .body(resource);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    public Long getCodeId() {
-        return codeId;
+    @GetMapping("download")
+    public ResponseEntity<ByteArrayResource> downloadFile(@RequestParam("id") Long id) throws IOException {
+        Optional<FileAttachmentDTO> fileManagementDTOOptional = fileAttachmentService.findOne(id);
+        if (!fileManagementDTOOptional.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+        FileAttachmentDTO fileManagementDTO = fileManagementDTOOptional.get();
+        MediaType mediaType = FileUtil.getMediaTypeForFileName(this.servletContext, fileManagementDTO.getFileName());
+        Path path = Paths.get(fileManagementDTO.getPath() + fileManagementDTO.getFileEntryName());
+        return getByteArrayResourceResponseEntity(fileManagementDTO, mediaType, path);
     }
 
-    public void setCodeId(Long codeId) {
-        this.codeId = codeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public Short getGender() {
-        return gender;
-    }
-
-    public void setGender(Short gender) {
-        this.gender = gender;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public Integer getNation() {
-        return nation;
-    }
-
-    public void setNation(Integer nation) {
-        this.nation = nation;
-    }
-
-    public String getOrganizationId() {
-        return organizationId;
-    }
-
-    public void setOrganizationId(String organizationId) {
-        this.organizationId = organizationId;
-    }
-
-    public String getJob() {
-        return job;
-    }
-
-    public void setJob(String job) {
-        this.job = job;
+    private ResponseEntity<ByteArrayResource> getByteArrayResourceResponseEntity(
+        FileAttachmentDTO fileManagementDTO,
+        MediaType mediaType,
+        Path path
+    ) throws IOException {
+        if (Files.exists(path)) {
+            long startTime = System.currentTimeMillis();
+            byte[] data = Files.readAllBytes(path);
+            long endTime = System.currentTimeMillis();
+            System.out.println("getByteArrayResourceResponseEntity readAllBytes: " + (endTime - startTime));
+            ByteArrayResource resource = new ByteArrayResource(data);
+            return ResponseEntity
+                .ok()
+                // Content-Type
+                .contentType(mediaType) //
+                // Content-Lengh
+                .contentLength(data.length) //
+                .body(resource);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

@@ -1,8 +1,8 @@
-package com.viettel.tuandz.service.dto;
+package com.viettel.tuandz.service.form;
 
 import java.sql.Timestamp;
 
-public class FileAttachmentDTO {
+public class FileManagementDetail {
 
     Long id;
     Integer fileType;
@@ -10,7 +10,24 @@ public class FileAttachmentDTO {
     String fileName;
     String path;
     Timestamp createdDate;
-    String fileEntryName;
+    private String sourceUrl;
+    private String sourceFile;
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
+    public String getSourceFile() {
+        return sourceFile;
+    }
+
+    public void setSourceFile(String sourceFile) {
+        this.sourceFile = sourceFile;
+    }
 
     public Long getId() {
         return id;
@@ -58,13 +75,5 @@ public class FileAttachmentDTO {
 
     public void setCreatedDate(Timestamp createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public String getFileEntryName() {
-        return fileEntryName;
-    }
-
-    public void setFileEntryName(String fileEntryName) {
-        this.fileEntryName = fileEntryName;
     }
 }
